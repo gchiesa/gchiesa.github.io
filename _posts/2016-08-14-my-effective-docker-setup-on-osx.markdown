@@ -69,7 +69,7 @@ docker-machine-nfs default —nfs-config="-alldirs -maproot=0"
 ~~~
  
 ## Configure your bash
-You could always use the docker quick start terminal (Applications-> Docker -> Docker QuickStart Terminal) to use docker commands on your laptop but it’s more useful to integrate the setup in your standard bash shell. Create a file called .dockerenv.rc  and put this lines in it:
+You could always use the docker quick start terminal __(Applications-> Docker -> Docker QuickStart Terminal)__ to use docker commands on your laptop but it’s more useful to integrate the setup in your standard bash shell. Create a file called __.dockerenv.rc__  and put this lines in it:
 
 ~~~
 # DOCKER-MACHINE
@@ -79,10 +79,13 @@ You could always use the docker quick start terminal (Applications-> Docker -> D
  fi
 ~~~
 
-save and open your ~/.bashrc and add the line:
+save and open your __~/.bashrc__ and add the line:
+
 ~~~
 # DOCKER-MACHINE
  if [[ -s $HOME/dockerenv.rc ]]; then 
      source $HOME/dockerenv.rc
  fi
 ~~~
+
+

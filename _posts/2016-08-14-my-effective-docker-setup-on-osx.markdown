@@ -2,6 +2,7 @@
 published: true
 title: My Effective Docker Setup on OSX
 layout: post
+tags: [docker, docker-compose, osx, ]
 ---
 this how to is aimed to help to setup docker in OSX to behave in the same way it would in a native linux environment. 
 
@@ -19,7 +20,7 @@ Despite I like vagrant because the possibility to describe your virtual environm
 ## Docker Machine installation
 Download and install the docker-toolbox project 
 
-[https://www.docker.com/products/docker-toolbox]
+[https://www.docker.com/products/docker-toolbox](https://www.docker.com/products/docker-toolbox)
 
 ## Create the docker-machine 
 The virtual machine that will run the docker container must be created (only one). If you are behind a corporate proxy (like me!) you must pass the proxy host to the creation command:
@@ -41,7 +42,8 @@ docker-machine create -d virtual box default
 The proxy is necessary in order to make the docker host able to pull the images from the registry and only for that. When you run containers inside you must specify the proxy through env variables in the way you prefer (env variables or arguments)
 
 ## Setup the transparent NFS sharing
-Docker-machine takes care to transparently manage the mount of volumes inside the container when they are specified by the user ( -v option). But the standard sharing has 2 drawbacks:
+
+Docker-machine takes care to transparently manage the mount of volumes inside the container when they are specified by the user ( -v option). But the standard sharing has 3 drawbacks:
 
 1. The shares are really slow
 
@@ -52,9 +54,10 @@ In order to avoid this you can configure your laptop to export the volumes as NF
 
 So, we are going to install docker-machine-nfs
 
-https://github.com/adlogix/docker-machine-nfs
+[https://github.com/adlogix/docker-machine-nfs](https://github.com/adlogix/docker-machine-nfs)
 
 with brew:
+
 ~~~
 brew install docker-machine-nfs
 ~~~

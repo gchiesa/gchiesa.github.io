@@ -1,0 +1,8 @@
+excerpt_separator: ""
+pygments: true
+markdown: kramdown
+url: http://gchiesa.github.io
+title: Giuseppe Chiesa
+tagline: Bento Box with Ideas and Notes
+description: This is my little corner where I put some notes or ideas while doing other stuff...
+paginate: 5

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My effective Docker setup on OSX</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for Giuseppe Chiesa's Corner" href="/feed.xml" />
+  <!-- Begin Jekyll SEO tag v2.0.0 -->
+<title>My effective Docker setup on OSX - Giuseppe Chiesa’s Corner</title>
+<meta property="og:title" content="My effective Docker setup on OSX" />
+<meta name="description" content="this how to is aimed to help to setup docker in OSX to behave in the same way it would in a native linux environment." />
+<meta property="og:description" content="this how to is aimed to help to setup docker in OSX to behave in the same way it would in a native linux environment." />
+<link rel="canonical" href="//gchiesa.github.io/2016/09/20/my-effective-docker-setup-on-osx/" />
+<meta property="og:url" content="//gchiesa.github.io/2016/09/20/my-effective-docker-setup-on-osx/" />
+<meta property="og:site_name" content="Giuseppe Chiesa’s Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-09-20T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@gchiesa78" />
+<meta name="twitter:creator" content="@Giuseppe Chiesa" />
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "My effective Docker setup on OSX",
+    "datePublished": "2016-09-20T00:00:00+02:00",
+    "description": "this how to is aimed to help to setup docker in OSX to behave in the same way it would in a native linux environment.",
+    "url": "//gchiesa.github.io/2016/09/20/my-effective-docker-setup-on-osx/"
+  }
+</script>
+<!-- End Jekyll SEO tag -->
+</head>
+<body>
+  <div class="container">
+    <header class="masthead">
+  <h1 class="masthead-title--small">
+    <a href="/">Giuseppe Chiesa's Corner</a>
+  </h1>
+</header>
+<div class="content post">
+  <h1 class="post-title">My effective Docker setup on OSX</h1>
+  <div class="post-date">
+    <time>20 Sep 2016</time>
+  </div>
+  <p>this how to is aimed to help to setup docker in OSX to behave in the same way it would in a native linux environment.</p>
+
+<p>One of main goal is to make the volumes work flawlessly, without the need of any changes between your local laptop and a dev/prod environment.</p>
+
+<p>Despite I like vagrant because the possibility to describe your virtual environment through a scripting language, in this how-to I personally find more effective the usage of docker-machine in order to create your virtual machine to run docker.</p>
+
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+  <li>the provider used is virtual box</li>
+  <li>there  is no ~/.docker folder in your $HOME path</li>
+  <li>your docker-machine will be called ‘default’ and there are no other virtual instances with that name on your provider</li>
+  <li>you use bash as shell</li>
+  <li>you have brew installed on your machine</li>
+</ul>
+
+<h2 id="docker-machine-installation">Docker Machine installation</h2>
+<p>Download and install the docker-toolbox project</p>
+
+<p><a href="https://www.docker.com/products/docker-toolbox">https://www.docker.com/products/docker-toolbox</a></p>
+
+<h2 id="create-the-docker-machine">Create the docker-machine</h2>
+<p>The virtual machine that will run the docker container must be created (only one). If you are behind a corporate proxy (like me!) you must pass the proxy host to the creation command:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>docker-machine create -d virtualbox \
+    --engine-env HTTP_PROXY=http://example.com:8080 \
+    --engine-env HTTPS_PROXY=https://example.com:8080 \
+    --engine-env NO_PROXY=example2.com \
+    default
+</code></pre>
+</div>
+
+<p>if you are not behind proxy just type:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>docker-machine create -d virtual box default
+</code></pre>
+</div>
+
+<p>The proxy is necessary in order to make the docker host able to pull the images from the registry and only for that. When you run containers inside you must specify the proxy through env variables in the way you prefer (env variables or arguments)</p>
+
+<h2 id="setup-the-transparent-nfs-sharing">Setup the transparent NFS sharing</h2>
+
+<p>Docker-machine takes care to transparently manage the mount of volumes inside the container when they are specified by the user ( -v option). But the standard sharing has 3 drawbacks:</p>
+
+<ol>
+  <li>
+    <p>The shares are really slow</p>
+  </li>
+  <li>
+    <p>The permission exposed for a volume inside the container are the same as the user that run the container: this means that if inside the container you run a process under a different numeric uid than your uid in your laptop the process can’t write on the share.</p>
+  </li>
+  <li>
+    <p>Any command to change ownership or permission on a volume won’t work.
+In order to avoid this you can configure your laptop to export the volumes as NFS exports and also to map the root within the container as root on your laptop (this can obviously be a dangerous configuration but you should know what you run inside your container and, anyway, the container can write only in the specified volume / path)</p>
+  </li>
+</ol>
+
+<p>So, we are going to install docker-machine-nfs</p>
+
+<p><a href="https://github.com/adlogix/docker-machine-nfs">https://github.com/adlogix/docker-machine-nfs</a></p>
+
+<p>with brew:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install docker-machine-nfs
+</code></pre>
+</div>
+
+<p>and we configure the machine ‘default’ to be able to use nfs mounts with root mapping:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>docker-machine-nfs default —nfs-config="-alldirs -maproot=0"
+</code></pre>
+</div>
+
+<h2 id="configure-your-bash">Configure your bash</h2>
+<p>You could always use the docker quick start terminal <strong>(Applications-&gt; Docker -&gt; Docker QuickStart Terminal)</strong> to use docker commands on your laptop but it’s more useful to integrate the setup in your standard bash shell. Create a file called <strong>.dockerenv.rc</strong>  and put this lines in it:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># DOCKER-MACHINE
+ DOCKER_EXPORTS=$(docker-machine env 2&gt;/dev/null)
+ if [ "${DOCKER_EXPORTS%% *}" == 'export' ]; then
+     eval ${DOCKER_EXPORTS}
+ fi
+</code></pre>
+</div>
+
+<p>save and open your <strong>~/.bashrc</strong> and add the line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># DOCKER-MACHINE
+ if [[ -s $HOME/dockerenv.rc ]]; then
+     source $HOME/dockerenv.rc
+ fi
+</code></pre>
+</div>
+
+</div>
+
+  </div>
+</body>
+</html>

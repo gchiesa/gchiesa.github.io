@@ -3,8 +3,8 @@
 # # # # # # # #
 
 # Basic
-name:               "Giuseppe Chiesa's Corner"
-description:        "some note here and there"
+name:               "Giuseppe Chiesa"
+description:        "some note here and there..."
 
 # jekyll-seo-tag, see: http://www.rubydoc.info/gems/jekyll-seo-tag/1.2.0
 url:                "//gchiesa.github.io"

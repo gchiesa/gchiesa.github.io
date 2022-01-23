@@ -1,0 +1,6 @@
+baseURL = 'https://g-c.dev/'
+languageCode = 'en-us'
+title = 'g-c.dev'
+theme = 'hugo-tranquilpeak-theme'
+publishDir = 'docs'
+

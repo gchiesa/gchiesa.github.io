@@ -115,6 +115,12 @@ canonifyurls = true
   pre = "<i class=\"sidebar-button-icon fab fa-lg fa-linkedin\" aria-hidden=\"true\"></i>"
   url = "https://www.linkedin.com/in/gchiesa/"
 
+[[menu.links]]
+  weight = 2
+  identifier = "Twitter"
+  name = "Twitter"
+  pre = "<i class=\"sidebar-button-icon fab fa-lg fa-linkedin\" aria-hidden=\"true\"></i>"
+  url = "https://twitter.com/peppewith3p"
 
 # [[menu.links]]
 #   weight = 2

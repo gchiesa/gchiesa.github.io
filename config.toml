@@ -1,4 +1,4 @@
-baseURL = 'https://g-c.dev/'
+baseURL = 'https://gchiesa.github.io/'
 languageCode = 'en-us'
 title = 'g-c.dev'
 theme = 'hugo-tranquilpeak-theme'

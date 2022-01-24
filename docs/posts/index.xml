@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>g-c.dev</title>
-    <link>https://gchiesa.github.io/</link>
-    <description>Recent content on g-c.dev</description>
+    <title>Posts on g-c.dev</title>
+    <link>https://gchiesa.github.io/posts/</link>
+    <description>Recent content in Posts on g-c.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Jan 2022 10:00:00 +0000</lastBuildDate><atom:link href="https://gchiesa.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Jan 2022 10:00:00 +0000</lastBuildDate><atom:link href="https://gchiesa.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Notes from the field...</title>
       <link>https://gchiesa.github.io/2022/01/notes-from-the-field.../</link>

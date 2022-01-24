@@ -4,7 +4,7 @@ date: 2022-01-24T10:00:00
 categories: 
 - general
 tags: []
-coverImage: img/john-tuesday-luWyD6tTueU-unsplash-500.jpg
+coverImage: img/john-tuesday-luWyD6tTueU-unsplash-1600.jpg
 coverCaption: "Image by John Tuesday - Unsplash"
 coverSize: partial
 thumbnailImage: img/john-tuesday-luWyD6tTueU-unsplash-500.jpg

@@ -211,7 +211,7 @@ canonifyurls = true
   # and use relative url : `images/cover.jpg`
 #   coverImage = "images/cover.jpg"
   coverImage = "https://res.cloudinary.com/doifmyf7v/image/upload/v1642950591/mohammad-alizade-XgeZu2jBaVI-unsplash-1600_eq2z8g.jpg"
-
+  coverImage = "img/greg-rosenke-ehWTqp257K4-unsplash-1600.jpg"
   # Display an image gallery at the end of a post which have photos variables (false: disabled, true: enabled)
   imageGallery = true
 

@@ -17,7 +17,7 @@
 # defaultContentLanguage = "en-us"
 # title = "g-c.dev"
 # theme = "hugo-tranquilpeak-theme"
-disqusShortname = "hugo-tranquilpeak-theme"
+disqusShortname = "g-c-dev"
 # googleAnalytics = "UA-123-45"
 paginate = 7
 canonifyurls = true

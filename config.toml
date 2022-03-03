@@ -1,6 +1,69 @@
-baseURL = 'https://gchiesa.github.io/'
-languageCode = 'en-us'
-title = 'g-c.dev'
-theme = 'hugo-tranquilpeak-theme'
+## Basic Configuration
+baseurl = "https://gchiesa.github.io/" 
+
 publishDir = 'docs'
 
+builddrafts = false
+canonifyurls = false
+languageCode = "en-us"
+
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+
+author = "PeppeWith3p"
+title = 'g-c.dev'
+
+theme = "hugo-goa"
+
+## Hugo Built-in Features
+disqusShortname = "g-c-dev" # Comment out to disable Disqus.
+# googleAnalytics = "XYZ"
+enableRobotsTXT = true
+
+## Site Settings
+[params]
+author = "Giuseppe Chiesa"
+intro = "I’m Peppe, an italian Cloud Architect living in Amsterdam."
+description = "I love my **beautiful fiancee** and my cat **Newton**. I enjoy **jazz** music, italian cooking and be surrounded by **open-minded** people."
+authorimage = "peppewith3p.jpg"
+dateformat = "Jan 2, 2006"
+
+## Site Meta Settings
+[params.meta]
+description = "Simple minimalist theme"
+keywords = "minimalist,blog,goa,hugo,developer"
+
+## Social Accounts
+[params.social]
+github = "gchiesa"
+# instagram = "<username>"
+linkedin = "gchiesa"
+twitter = "peppewith3p"
+# facebook = "<username>"
+# google = "<username>"
+# stackoverflow = "<username>"
+# email = "you@example.com"
+
+## Extras
+[params.extra]
+copyright = "© 2022. Giuseppe Chiesa. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)." 
+poweredby = true
+hightlightjs = true
+
+## Main Menu
+# [[menu.main]]
+#     name = "blog"
+#     weight = 100
+#     identifier = "blog"
+#     url = "/blog/"
+# [[menu.main]]
+#     name = "about"
+#     identifier = "about"
+#     weight = 200
+#     url = "/about/"
+# [[menu.main]]
+#     name = "coderag"
+#     identifier = "coderag"
+#     weight = 300
+#     url = "/coderag/"

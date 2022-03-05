@@ -1,5 +1,5 @@
 +++
-showpagemeta = false
+showpagemeta = true
 
 title = "oAuth2Proxy, Azure AD and Traefik"
 date =  "2022-03-04T18:58:33+01:00"

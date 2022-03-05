@@ -31,8 +31,8 @@ dateformat = "Jan 2, 2006"
 
 ## Site Meta Settings
 [params.meta]
-description = "Simple minimalist theme"
-keywords = "minimalist,blog,goa,hugo,developer"
+description = "g-c.dev - Peppe Chiesa"
+keywords = "cloud,infra,software,architecture,devop,sre"
 
 ## Social Accounts
 [params.social]

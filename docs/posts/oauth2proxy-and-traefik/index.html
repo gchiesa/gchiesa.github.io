@@ -81,7 +81,7 @@ flexible and it integrates perfectly with the Kubernetes ecosystem.</p>
 <h2 id="architecture-diagram">Architecture Diagram</h2>
 <p>How actually the authentication works?</p>
 <p>oAuth2Proxy supports 2 mode of working: AuthServer or ReverseProxy. Since in our setup we already have a reverse
-proxy, Traefik, we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token
+proxy - Traefik - we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token
 (if any) is valid otherwise will trigger a redirect to start the authentication process in Azure AD.</p>
 <p>See the diagram below:</p>
 
@@ -143,7 +143,7 @@ In addition, we will assume Traefik is already installed in the cluster.</p>
     <span style="color:#f92672">traefik.ingress.kubernetes.io/router.entrypoints</span>: <span style="color:#e6db74">&#34;websecure&#34;</span>
     <span style="color:#f92672">traefik.ingress.kubernetes.io/router.tls</span>: <span style="color:#e6db74">&#34;true&#34;</span>
     <span style="color:#f92672">traefik.ingress.kubernetes.io/router.tls.options</span>: <span style="color:#e6db74">&#34;default&#34;</span>
-    <span style="color:#f92672">traefik.ingress.kubernetes.io/router.middlewares</span>: <span style="color:#ae81ff">oauth2-proxy-oauth2proxyheaders@kubernetescrd</span>
+    <span style="color:#f92672">traefik.ingress.kubernetes.io/router.middlewares</span>: <span style="color:#ae81ff">oauth2proxy-headers@kubernetescrd</span>
   <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/</span>
   <span style="color:#f92672">hosts</span>:
     - <span style="color:#ae81ff">login.&lt;common_domain&gt;</span>

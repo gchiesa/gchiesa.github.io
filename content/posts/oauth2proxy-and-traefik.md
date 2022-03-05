@@ -29,7 +29,7 @@ flexible and it integrates perfectly with the Kubernetes ecosystem.
 How actually the authentication works? 
 
 oAuth2Proxy supports 2 mode of working: AuthServer or ReverseProxy. Since in our setup we already have a reverse 
-proxy, Traefik, we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token 
+proxy - Traefik - we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token 
 (if any) is valid otherwise will trigger a redirect to start the authentication process in Azure AD.
 
 See the diagram below:
@@ -96,7 +96,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.options: "default"
-    traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth2proxyheaders@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: oauth2proxy-headers@kubernetescrd
   path: /
   hosts:
     - login.<common_domain>

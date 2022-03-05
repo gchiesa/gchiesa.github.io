@@ -62,7 +62,7 @@ In addition, we will assume Traefik is already installed in the cluster.
 ## oAuth2Proxy configuration 
 Although oAuth2Proxy seems to support native 'azuread' as provider, I noticed it works better with the standard 'oidc' provider.
 
-With Helm you can ship the configuration via `values.yaml` file. Use the following configuration:
+With Helm, you can ship the configuration via `values.yaml` file. Use the following configuration:
 
 ----
 values.yaml
@@ -106,7 +106,7 @@ ingress:
 ```
 
 _NOTE: if you check the values.yaml you will see we mention a Traefik middleware (we will create it later): 
-`oauth2proxy-oauth2proxyheaders@kubernetescrd`_
+`oauth2proxy-headers@kubernetescrd`_
 
 let's deploy oAuth2Proxy with the usual helm commands: 
 
@@ -119,18 +119,19 @@ helm upgrade --install -n oauth2proxy --create-namespace oauth2proxy oauth2-prox
 
 ## oAuth2Proxy and Traefik integration
 In the diagram above we mention that Traefik will use the [Forward Auth mechanism] to check whether a request is allowed 
-to be propagated. This in Treafik is achieved via the creation of a Middleware. 
+to be propagated. This in Traefik is achieved via the creation of a Middleware. 
 This approach will additionally require another middleware to properly set/propagate the required headers. In this case we 
 will use the [Headers] middleware 
 
 [Forward Auth mechanism]: https://doc.traefik.io/traefik/middlewares/http/forwardauth/
 [Headers]: https://doc.traefik.io/traefik/middlewares/http/headers/
 
-From a separation of concern perspective, we can safely consider the Headers middleware strictly related to the oAuth2Proxy functionality, 
-so we will deploy that middleware in the oauth2proxy namespace. 
+From a separation of concern perspective, we can safely consider the **Headers** middleware strictly related to the 
+oAuth2Proxy functionality, so we will deploy that middleware in the oauth2proxy namespace. 
 
 When it comes to protect your application, then the other middleware can be part of your application namespace. This is convenient 
 when you want to protect multiple applications with oAuth2. 
+
 For sake of simplicity, in this example we will install both middlewares in the `oauth2proxy` namespace.
 
 Let's create these 2 middlewares. See the code below
@@ -175,7 +176,7 @@ spec:
 ```
 
 NOTES: 
-- As we mentioned aboce, if you need to protect multiple endpoints, you only need to create multiple `forwardauth` 
+- As we mentioned above, if you need to protect multiple endpoints, you only need to create multiple `forwardauth` 
   middlewares, one per each namespace where the endpoint is installed.
 - Make sure you keep the urlencoded version for the parameter `rd=` in the `address` property of the `forwardauth`.
 
@@ -195,7 +196,7 @@ Traefik uses a special construct to refer to Kubernetes CRD. If you checked abov
 This name represents the structure `<namespace>-<resource_name>@kubernetescrd`.
 
 
-## What about creating a Azure AD App Registration?
+## What about creating an Azure AD App Registration?
 This topic was out of scope of these notes, but you can find an excellent tutorial in this 
-[Youtube video](https://www.youtube.com/watch?v=59YwW8FrLm8). 
+[YouTube video](https://www.youtube.com/watch?v=59YwW8FrLm8). 
 

@@ -49,14 +49,15 @@ twitter = "peppewith3p"
 [params.extra]
 copyright = "© 2022. Giuseppe Chiesa. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)." 
 poweredby = true
-hightlightjs = true
+highlightjs = true
+highlightjsstyle = "stackoverflow-light"
 
 ## Main Menu
-# [[menu.main]]
-#     name = "blog"
-#     weight = 100
-#     identifier = "blog"
-#     url = "/blog/"
+ [[menu.main]]
+     name = "posts"
+     weight = 100
+     identifier = "posts"
+     url = "/posts/"
 # [[menu.main]]
 #     name = "about"
 #     identifier = "about"

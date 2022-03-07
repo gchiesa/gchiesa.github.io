@@ -54,6 +54,7 @@ highlightjsstyle = "stackoverflow-light"
 googleAnalyticsGTag = "G-BBLW1NP2ZG"
 displayrssicon = true
 
+
 ## Main Menu
  [[menu.main]]
      name = "posts"

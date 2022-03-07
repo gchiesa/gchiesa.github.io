@@ -3,7 +3,7 @@ title: "Terraform and Layered Infrastructure (part I)"
 
 date: 2022-03-07T17:52:05+01:00
 
-draft: true
+draft: false
 
 categories: ["Architecture", "IaC"]
 

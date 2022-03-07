@@ -85,25 +85,24 @@
     <h2 id="summary">Summary</h2>
 <p><a href="https://artifacthub.io/packages/helm/oauth2-proxy/oauth2-proxy">oAuth2Proxy</a> is a nice component for Kubernetes that
 adds an authentication layer, transparently, on top of your workload.</p>
-<p>The deployment of oAuth2Proxy is quite straightforward, via Helm, but when it comes to the integration with the authentication
-providers, some complexity arises, mainly due to the fact the documentation is not very complete. To be fair, oAuth2Proxy supports
-<a href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider">a lot of backends</a>, and while some of these
-are well documented, for some others the documentation is very limited.</p>
+<p>The deployment of oAuth2Proxy is quite straightforward, via Helm, but when it comes to the integration with the
+authentication providers, some complexity arises, mainly due to the fact the documentation is not very complete. To be
+fair, oAuth2Proxy supports
+<a href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider">a lot of backends</a>, and while some of
+these are well documented, for some others the documentation is very limited.</p>
 <p>Let&rsquo;s talk about the latter category, in particular authentication with <strong>Azure AD provider</strong>.</p>
-<p>This notes will describe how to configure oAuth2Proxy with Azure AD and expose its login endpoint via a Kubernetes ingress
-resource.</p>
-<p>When it comes to Ingress component in Kubernetes, I like Traefik. It&rsquo;s lightweight, supports a lot of features, is pretty
-flexible and it integrates perfectly with the Kubernetes ecosystem.</p>
+<p>This notes will describe how to configure oAuth2Proxy with Azure AD and expose its login endpoint via a Kubernetes
+ingress resource.</p>
+<p>When it comes to Ingress component in Kubernetes, I like Traefik. It&rsquo;s lightweight, supports a lot of features, is
+pretty flexible and it integrates perfectly with the Kubernetes ecosystem.</p>
 <h2 id="architecture-diagram">Architecture Diagram</h2>
 <p>How actually the authentication works?</p>
-<p>oAuth2Proxy supports 2 mode of working: AuthServer or ReverseProxy. Since in our setup we already have a reverse
-proxy - Traefik - we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token
+<p>oAuth2Proxy supports 2 mode of working: AuthServer or ReverseProxy. Since in our setup we already have a reverse proxy -
+Traefik - we will use oAuth2Proxy only as AuthServer. In this way oAuth2Proxy will check if the provided token
 (if any) is valid otherwise will trigger a redirect to start the authentication process in Azure AD.</p>
 <p>See the diagram below:</p>
 
-<div class="mermaid" align="center">
-graph LR;
-U[User] -->|Request| T(Traefik Ingress)
+<div class="mermaid" align="center"> graph LR; U[User] -->|Request| T(Traefik Ingress)
 T -->|forward auth| OA2P(oAuth2Proxy)
 T -->|token is valid| W(Workload)
 T -->|token is not valid| AZ[Redirect with 30x to Azure AD]
@@ -126,7 +125,8 @@ In addition, we will assume Traefik is already installed in the cluster.</p>
 <li>We generated a <code>&lt;strong_cookie_secret&gt;</code> via any or the procedures <a href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret">described here</a>.</li>
 </ol>
 <h2 id="oauth2proxy-configuration">oAuth2Proxy configuration</h2>
-<p>Although oAuth2Proxy seems to support native &lsquo;azuread&rsquo; as provider, I noticed it works better with the standard &lsquo;oidc&rsquo; provider.</p>
+<p>Although oAuth2Proxy seems to support native &lsquo;azuread&rsquo; as provider, I noticed it works better with the standard &lsquo;oidc&rsquo;
+provider.</p>
 <p>With Helm, you can ship the configuration via <code>values.yaml</code> file. Use the following configuration:</p>
 <hr>
 <p>values.yaml</p>
@@ -175,13 +175,12 @@ helm upgrade --install -n oauth2proxy --create-namespace oauth2proxy oauth2-prox
 </span><span style="color:#ae81ff"></span>  --values values.yaml
 </code></pre></div><h2 id="oauth2proxy-and-traefik-integration">oAuth2Proxy and Traefik integration</h2>
 <p>In the diagram above we mention that Traefik will use the <a href="https://doc.traefik.io/traefik/middlewares/http/forwardauth/">Forward Auth mechanism</a> to check whether a request is allowed
-to be propagated. This in Traefik is achieved via the creation of a Middleware.
-This approach will additionally require another middleware to properly set/propagate the required headers. In this case we
-will use the <a href="https://doc.traefik.io/traefik/middlewares/http/headers/">Headers</a> middleware</p>
+to be propagated. This in Traefik is achieved via the creation of a Middleware. This approach will additionally require
+another middleware to properly set/propagate the required headers. In this case we will use the <a href="https://doc.traefik.io/traefik/middlewares/http/headers/">Headers</a> middleware</p>
 <p>From a separation of concern perspective, we can safely consider the <strong>Headers</strong> middleware strictly related to the
 oAuth2Proxy functionality, so we will deploy that middleware in the oauth2proxy namespace.</p>
-<p>When it comes to protect your application, then the other middleware can be part of your application namespace. This is convenient
-when you want to protect multiple applications with oAuth2.</p>
+<p>When it comes to protect your application, then the other middleware can be part of your application namespace. This is
+convenient when you want to protect multiple applications with oAuth2.</p>
 <p>For sake of simplicity, in this example we will install both middlewares in the <code>oauth2proxy</code> namespace.</p>
 <p>Let&rsquo;s create these 2 middlewares. See the code below</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
@@ -227,7 +226,8 @@ middlewares, one per each namespace where the endpoint is installed.</li>
 <li>Make sure you keep the urlencoded version for the parameter <code>rd=</code> in the <code>address</code> property of the <code>forwardauth</code>.</li>
 </ul>
 <h2 id="your-application-and-oauth2proxy">Your application and oAuth2Proxy</h2>
-<p>Once we created the middlewares, Traefik will automatically discover them and use the <code>headers</code> one for the ingress of oAuth2Proxy.</p>
+<p>Once we created the middlewares, Traefik will automatically discover them and use the <code>headers</code> one for the ingress of
+oAuth2Proxy.</p>
 <p>Now, to instruct our application to requires authentication we can simply add an annotation on the ingress of our
 application with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">traefik.ingress.kubernetes.io/router.middlewares</span>: <span style="color:#ae81ff">oauth2proxy-forwardauth@kubernetescrd</span>
@@ -295,9 +295,8 @@ This name represents the structure <code>&lt;namespace&gt;-&lt;resource_name&gt;
   
   <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.92.0</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
   
-      
-      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
-    
+  
+
   
 </footer>
 

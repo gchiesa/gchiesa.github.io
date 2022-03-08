@@ -193,13 +193,13 @@ from the information exported from the previous stack(s).</p>
 proceed with the deployment: just to make an example with the  <strong>application</strong> layer: it will require only the
 coordinate of the Kubernetes cluster, and then it can proceed by instantiating the required provider and targeting the
 cluster.</p>
-<p>In this context the orchestrator, once the cluster is deployed can retrieve the information from the remote state and
+<p>The orchestrator, once the cluster is deployed, can retrieve the information from the remote state and
 pass them to the next layer.</p>
 <p>When it comes to the orchestration technologies here some examples I&rsquo;ve used:</p>
 <h3 id="terragrunt">Terragrunt</h3>
-<p><strong><a href="https://terragrunt.gruntwork.io/">Terragrunt</a></strong> looks for the moment the most interesting technology to drive the
-orchestration. It supports quite interesting helpers to make the dependencies explicit, and you can easily test the
-deployment orchestration from your laptop.</p>
+<p><strong><a href="https://terragrunt.gruntwork.io/">Terragrunt</a></strong> at the moment looks the most interesting technology to drive the
+orchestration. It supports several helper functions to help you make the dependencies explicit, and you can easily test
+the deployment orchestration from your laptop.</p>
 <h3 id="pipelines">Pipelines</h3>
 <p>You can also describe the orchestration with pipelines or workflows, such as <strong>GitHub actions</strong>. In this case, there is
 the
@@ -208,16 +208,16 @@ For example, if you start creating complex orchestrations with GitHub actions th
 them in your local development (workstation). Some project might help you <a href="https://github.com/nektos/act">like ACT</a>, but
 most of the time it&rsquo;s just faster to push the branch and let the runners deploy and test your changes.</p>
 <h3 id="taskfile">Taskfile</h3>
-<p>Another technology, more tech-agnostic and portable, might be the new replacement for the glorified Makefiles,
-<strong><a href="https://taskfile.dev/#/">Taskfile</a></strong>. It&rsquo;s a Golang project (single binary) that offers incredible flexibility and
+<p><strong><a href="https://taskfile.dev/#/">Taskfile</a></strong> is another technology, more agnostic and portable, tha is supposed to be the new
+replacement for the glorified Makefiles. It&rsquo;s a Golang project (single binary) that offers incredible flexibility and
 rich features to drive your orchestration.</p>
 <h2 id="final-thoughts-and-whats-next">Final Thoughts and what&rsquo;s next</h2>
-<p>I personally see Terragrunt as the most featured way to orchestrate even though, on the other side I dislike a bit the
-way it creates complex interpolations. It might become difficult to maintain.</p>
-<p>The other possibility I see interesting is to describe the orchestration with Taskfile, so that you can create the tasks
-and be able to use them locally or on the runners.</p>
-<p>Next article, I will showcase an example repository that follows the layered infrastructure pattern, just to try to
-explain more clearly how I think a good use of layers should be like.</p>
+<p>I personally see Terragrunt as the most featured way to orchestrate Terraform stack but, on the other side, I dislike a
+bit the way it creates complex interpolations. It might become difficult to maintain on the long run.</p>
+<p>The other approach I see quite interesting, is to describe the orchestration with Taskfile, so that you can create the
+tasks and be able to use them locally or on the runners.</p>
+<p>In the next article, I will showcase an example repository that follows the layered infrastructure pattern, just to try
+to explain more clearly how I think a good use of layers should be like.</p>
 
   </div>
 </section>

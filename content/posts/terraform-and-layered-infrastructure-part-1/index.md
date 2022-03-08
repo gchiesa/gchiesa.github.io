@@ -102,9 +102,9 @@ cluster_baseline -.-|requires Kubernetes coordinates| application
 At the end of the day, if you want to go for continuous delivery, it might be that **you will deploy multiple times per
 day only the application layer**, whereas the rest is deployed with different pace or barely changes at all.
 
-You can also think about this separation by imagining different team offers different layer as their deliverable.
+You can also think about this separation by imagining different teams offering different layers as their deliverable.
 
-I like to imagine these abstractions as layers, and my personal idea is that they should be implemented with IaC in
+I like to imagine the above abstractions as layers, and my personal idea is that they should be implemented with IaC in
 Terraform, but not deployed in a single root module.
 
 > This is the very moment where the convenience of Terraform stops, and we need to use something else.

@@ -1,5 +1,5 @@
 ## Basic Configuration
-baseurl = "https://gchiesa.github.io/" 
+baseurl = "https://g-c.dev/"
 
 publishDir = 'docs'
 

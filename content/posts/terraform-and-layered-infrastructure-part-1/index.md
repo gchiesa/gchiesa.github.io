@@ -140,17 +140,16 @@ proceed with the deployment: just to make an example with the  **application** l
 coordinate of the Kubernetes cluster, and then it can proceed by instantiating the required provider and targeting the
 cluster.
 
-In this context the orchestrator, once the cluster is deployed can retrieve the information from the remote state and
+The orchestrator, once the cluster is deployed, can retrieve the information from the remote state and
 pass them to the next layer.
 
 When it comes to the orchestration technologies here some examples I've used:
 
 ### Terragrunt
 
-**[Terragrunt](https://terragrunt.gruntwork.io/)** looks for the moment the most interesting technology to drive the
-orchestration. It supports quite interesting helpers to make the dependencies explicit, and you can easily test the
-deployment orchestration from your laptop.
-
+**[Terragrunt](https://terragrunt.gruntwork.io/)** at the moment looks the most interesting technology to drive the
+orchestration. It supports several helper functions to help you make the dependencies explicit, and you can easily test
+the deployment orchestration from your laptop.
 
 ### Pipelines
 
@@ -163,18 +162,18 @@ most of the time it's just faster to push the branch and let the runners deploy 
 
 ### Taskfile
 
-Another technology, more tech-agnostic and portable, might be the new replacement for the glorified Makefiles,
-**[Taskfile](https://taskfile.dev/#/)**. It's a Golang project (single binary) that offers incredible flexibility and
+**[Taskfile](https://taskfile.dev/#/)** is another technology, more agnostic and portable, tha is supposed to be the new
+replacement for the glorified Makefiles. It's a Golang project (single binary) that offers incredible flexibility and
 rich features to drive your orchestration.
 
 
 ## Final Thoughts and what's next
 
-I personally see Terragrunt as the most featured way to orchestrate even though, on the other side I dislike a bit the
-way it creates complex interpolations. It might become difficult to maintain.
+I personally see Terragrunt as the most featured way to orchestrate Terraform stack but, on the other side, I dislike a
+bit the way it creates complex interpolations. It might become difficult to maintain on the long run.
 
-The other possibility I see interesting is to describe the orchestration with Taskfile, so that you can create the tasks
-and be able to use them locally or on the runners.
+The other approach I see quite interesting, is to describe the orchestration with Taskfile, so that you can create the
+tasks and be able to use them locally or on the runners.
 
-Next article, I will showcase an example repository that follows the layered infrastructure pattern, just to try to
-explain more clearly how I think a good use of layers should be like.
+In the next article, I will showcase an example repository that follows the layered infrastructure pattern, just to try
+to explain more clearly how I think a good use of layers should be like.

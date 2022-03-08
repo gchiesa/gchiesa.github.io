@@ -2,30 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://gchiesa.github.io/categories/architecture/</loc>
+    <loc>https://g-c.dev/categories/architecture/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/categories/</loc>
+    <loc>https://g-c.dev/categories/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/</loc>
+    <loc>https://g-c.dev/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/categories/iac/</loc>
+    <loc>https://g-c.dev/categories/iac/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/posts/</loc>
+    <loc>https://g-c.dev/posts/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/posts/terraform-and-layered-infrastructure-part-1/</loc>
+    <loc>https://g-c.dev/posts/terraform-and-layered-infrastructure-part-1/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/categories/might-be-useful/</loc>
+    <loc>https://g-c.dev/categories/might-be-useful/</loc>
     <lastmod>2022-03-04T18:58:33+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/posts/oauth2proxy-and-traefik/</loc>
+    <loc>https://g-c.dev/posts/oauth2proxy-and-traefik/</loc>
     <lastmod>2022-03-04T18:58:33+01:00</lastmod>
   </url><url>
-    <loc>https://gchiesa.github.io/tags/</loc>
+    <loc>https://g-c.dev/tags/</loc>
   </url>
 </urlset>

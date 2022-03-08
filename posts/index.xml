@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on g-c.dev</title>
-    <link>https://gchiesa.github.io/posts/</link>
+    <link>https://g-c.dev/posts/</link>
     <description>Recent content in Posts on g-c.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Mar 2022 17:52:05 +0100</lastBuildDate><atom:link href="https://gchiesa.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Mar 2022 17:52:05 +0100</lastBuildDate><atom:link href="https://g-c.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Terraform and Layered Infrastructure (part I)</title>
-      <link>https://gchiesa.github.io/posts/terraform-and-layered-infrastructure-part-1/</link>
+      <link>https://g-c.dev/posts/terraform-and-layered-infrastructure-part-1/</link>
       <pubDate>Mon, 07 Mar 2022 17:52:05 +0100</pubDate>
       
-      <guid>https://gchiesa.github.io/posts/terraform-and-layered-infrastructure-part-1/</guid>
+      <guid>https://g-c.dev/posts/terraform-and-layered-infrastructure-part-1/</guid>
       <description>Current state of the art We all know, Terraform is the current de-facto standard when it comes to describe your infrastructure.
 We might also have experienced some limitation in flexibility when we used Terraform (mostly the versions &amp;lt; 1.0) for which we had to implement quite often some hackish workaround: thinking about conditional logic, &amp;ldquo;for-each&amp;rsquo;s&amp;rdquo; when there was no foreach support, etc&amp;hellip;
 Luckily most of these can masked via modules, a quite flexible representation of logical group of resources.</description>
@@ -20,10 +20,10 @@ Luckily most of these can masked via modules, a quite flexible representation of
     
     <item>
       <title>oAuth2Proxy, Azure AD and Traefik</title>
-      <link>https://gchiesa.github.io/posts/oauth2proxy-and-traefik/</link>
+      <link>https://g-c.dev/posts/oauth2proxy-and-traefik/</link>
       <pubDate>Fri, 04 Mar 2022 18:58:33 +0100</pubDate>
       
-      <guid>https://gchiesa.github.io/posts/oauth2proxy-and-traefik/</guid>
+      <guid>https://g-c.dev/posts/oauth2proxy-and-traefik/</guid>
       <description>Summary oAuth2Proxy is a nice component for Kubernetes that adds an authentication layer, transparently, on top of your workload.
 The deployment of oAuth2Proxy is quite straightforward, via Helm, but when it comes to the integration with the authentication providers, some complexity arises, mainly due to the fact the documentation is not very complete. To be fair, oAuth2Proxy supports a lot of backends, and while some of these are well documented, for some others the documentation is very limited.</description>
     </item>

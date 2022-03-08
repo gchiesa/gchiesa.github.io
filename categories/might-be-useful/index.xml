@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>might-be-useful on g-c.dev</title>
+    <link>https://gchiesa.github.io/categories/might-be-useful/</link>
+    <description>Recent content in might-be-useful on g-c.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 04 Mar 2022 18:58:33 +0100</lastBuildDate><atom:link href="https://gchiesa.github.io/categories/might-be-useful/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>oAuth2Proxy, Azure AD and Traefik</title>
+      <link>https://gchiesa.github.io/posts/oauth2proxy-and-traefik/</link>
+      <pubDate>Fri, 04 Mar 2022 18:58:33 +0100</pubDate>
+      
+      <guid>https://gchiesa.github.io/posts/oauth2proxy-and-traefik/</guid>
+      <description>Summary oAuth2Proxy is a nice component for Kubernetes that adds an authentication layer, transparently, on top of your workload.
+The deployment of oAuth2Proxy is quite straightforward, via Helm, but when it comes to the integration with the authentication providers, some complexity arises, mainly due to the fact the documentation is not very complete. To be fair, oAuth2Proxy supports a lot of backends, and while some of these are well documented, for some others the documentation is very limited.</description>
+    </item>
+    
+  </channel>
+</rss>

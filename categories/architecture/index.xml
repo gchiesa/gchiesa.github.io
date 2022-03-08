@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Architecture on g-c.dev</title>
+    <link>https://gchiesa.github.io/categories/architecture/</link>
+    <description>Recent content in Architecture on g-c.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Mar 2022 17:52:05 +0100</lastBuildDate><atom:link href="https://gchiesa.github.io/categories/architecture/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform and Layered Infrastructure (part I)</title>
+      <link>https://gchiesa.github.io/posts/terraform-and-layered-infrastructure-part-1/</link>
+      <pubDate>Mon, 07 Mar 2022 17:52:05 +0100</pubDate>
+      
+      <guid>https://gchiesa.github.io/posts/terraform-and-layered-infrastructure-part-1/</guid>
+      <description>Current state of the art We all know, Terraform is the current de-facto standard when it comes to describe your infrastructure.
+We might also have experienced some limitation in flexibility when we used Terraform (mostly the versions &amp;lt; 1.0) for which we had to implement quite often some hackish workaround: thinking about conditional logic, &amp;ldquo;for-each&amp;rsquo;s&amp;rdquo; when there was no foreach support, etc&amp;hellip;
+Luckily most of these can masked via modules, a quite flexible representation of logical group of resources.</description>
+    </item>
+    
+  </channel>
+</rss>

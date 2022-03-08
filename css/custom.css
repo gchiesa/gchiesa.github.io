@@ -1,0 +1,22 @@
+/* Add custom CSS here. */
+code {
+    font-size: 0.8em !important;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    text-justify: none !important;
+    margin-top: 1.2em;
+}
+
+
+.container {
+    max-width: 800px;
+}
+
+blockquote {
+    border-left: 1px solid #7e7e77;
+    padding-left: 20px;
+    color: #5c5c51;
+    font-size: 1em;
+    font-weight: normal;
+}

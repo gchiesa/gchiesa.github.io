@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="g-c.dev - Peppe Chiesa">
+<meta name="keywords" content="cloud,infra,software,architecture,devop,sre">
+
+<title>
+  g-c.dev - Terraform and Layered Infrastructure (part I) 
+</title>
+
+<meta name="generator" content="Hugo 0.92.0" />
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/stackoverflow-light.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Slab:wght@400;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://gchiesa.github.io/css/main.css">
+<link rel="stylesheet" href="https://gchiesa.github.io/css/custom.css">
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, securityLevel: 'loose'}});</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="en-us">
+<div class="container">
+
+
+<header class="text-left title">
+  <h1 class="title">Terraform and Layered Infrastructure (part I)</h1>
+</header>
+<section id="category-pane" class="meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON MAR 7, 2022 
+      
+      
+      
+      —
+      
+      
+      <a class="meta" href="/categories/architecture">ARCHITECTURE</a>, 
+      
+      <a class="meta" href="/categories/iac">IAC</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="">
+  <div class="col-md-12 content">
+    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#current-state-of-the-art">Current state of the art</a></li>
+    <li><a href="#pitfalls-of-big-modules">Pitfalls of big modules</a></li>
+    <li><a href="#what-is-a-layered-infrastructure">What is a layered infrastructure</a></li>
+    <li><a href="#pros-of-layered-infrastructure">Pros of Layered Infrastructure</a></li>
+    <li><a href="#how-to-orchestrate">How to Orchestrate</a>
+      <ul>
+        <li><a href="#terragrunt">Terragrunt</a></li>
+        <li><a href="#pipelines">Pipelines</a></li>
+        <li><a href="#taskfile">Taskfile</a></li>
+      </ul>
+    </li>
+    <li><a href="#final-thoughts-and-whats-next">Final Thoughts and what&rsquo;s next</a></li>
+  </ul>
+</nav>
+    
+    <h2 id="current-state-of-the-art">Current state of the art</h2>
+<p>We all know, Terraform is the current de-facto standard when it comes to describe your infrastructure.</p>
+<p>We might also have experienced some limitation in flexibility when we used Terraform (mostly the versions &lt; 1.0) for
+which we had to implement quite often some hackish workaround: thinking about conditional logic, &ldquo;for-each&rsquo;s&rdquo; when there
+was no foreach support, etc&hellip;</p>
+<p>Luckily most of these can masked via <strong>modules</strong>, a quite flexible representation of logical group of resources.</p>
+<p>Now, I see there are very interesting and fascinating alternatives to Terraform, that solve most of the un-flexibility
+we encountered while describing our infrastructure (read <a href="https://www.pulumi.com/">Pulumi</a>) but we can discuss another
+time about this topic.</p>
+<p>The idea behind this post is to share some thoughts on the way Terraform is used, and the way I personally think it
+should be used instead.</p>
+<blockquote>
+<p><strong>TL;DR</strong> Terraform is not your silver-bullet for infrastructure. Actually is just a language to describe the infrastructure, not to orchestrate the creation of it, even if it pushes you to think is a good idea to use it also for orchestration._</p>
+</blockquote>
+<h2 id="pitfalls-of-big-modules">Pitfalls of big modules</h2>
+<p>Thanks to the flexibility given by modules, Terraform can compose quite complex infrastructure representations.</p>
+<p>But after a while, you may figure out that big infrastructure representation started looking like a big monolith. Are
+you sure your infrastructure is actually a big monolith?</p>
+<p>Are you perhaps trying to use a single root module because it looks convenient to drive everything with Terraform, and
+you can easily (really?) keeps all the relationships between all the resources in a single root module?</p>
+<p>I&rsquo;m quite sure at some point you will have a single root module that starts creating that complex infrastructure, then
+it also (because why not, it&rsquo;s easy to plug it in there) deploys your application, maybe with Helm if you run
+Kubernetes.</p>
+<p>And, not least, when it comes to the normal &ldquo;everyday fuck-ups&rdquo; like a circular dependency introduced by mistake you
+might need to figure out your acyclic graph composed by hundreds of resources&hellip; good luck with that.
+<img src="cyclic-dep-hell.webp" alt="cyclic-dep-hell.webp"></p>
+<h2 id="what-is-a-layered-infrastructure">What is a layered infrastructure</h2>
+<p>Lets thing a moment about the first question above:</p>
+<p><strong>Are you sure your infrastructure is actually a big monolith?</strong></p>
+<p>Since before we mentioned Helm, let&rsquo;s assume our project is an application that runs on top of Kubernetes.</p>
+<p>If you think about it your infrastructure is composed by group of resource that can be categorized and identified by
+their own lifecycle:</p>
+<ol>
+<li><em><strong>Identities, roles</strong></em>, they are created once and rarely change. What usually changes in there is some credential
+associated to these identities, but the credentials should not be described as infra. They are part of the secret
+management.</li>
+<li>Another group might be the <em><strong>global resources</strong></em>, used across multiple regions: think about the hosted zones. You
+plug regional workloads in your global hosted zone, but the hosted zone itself never change.</li>
+<li><em><strong>Elastic, static, IPs</strong></em> that are there for a reason (otherwise you would use the more flexible cloud endpoints).</li>
+<li>Your <em><strong>regional infrastructure</strong></em> that usually has an underlying networking that act as a base for a subsequent
+layer of infra</li>
+<li>Your <em><strong>main infrastructure</strong></em>, on top of which you will run your workload.</li>
+<li>Your workload, or <em><strong>application</strong></em></li>
+</ol>
+<p>All these above might have a different lifecycle. Now we don&rsquo;t want to create a granularity hell, but in general we can
+approach this separation with an abstraction like: <strong>identities, base-infra, cluster-baseline, application</strong>.</p>
+
+<div class="mermaid" align="center"> 
+graph TB; 
+subgraph Identities 
+    identities(roles, managed identities)
+end 
+subgraph Base Infra 
+    base_infra(DNS Zones, Networking)
+end 
+subgraph Cluster Baseline 
+    cluster_baseline(Kubernetes Cluster, Ingress, CertManager, External DNS, Vault Integration)
+end 
+subgraph Application 
+    application(Helm Chart - your application)
+end
+
+identities -.-|uses identities| base_infra 
+base_infra -.-|requires existing networking layer| cluster_baseline
+cluster_baseline -.-|requires Kubernetes coordinates| application 
+</div>
+<ul>
+<li><strong>identities</strong>: includes all the managed identities and the custom roles</li>
+<li><strong>base-infra</strong>: includes all the global resources and networking</li>
+<li><strong>cluster-baseline</strong>: includes your cluster per region, maybe including the components that are granting the
+functionalities part of your baseline (thinking about ingress, certificate management, dns management, secrets
+management)</li>
+<li><strong>application</strong>: what you actually want to run on top of your full-fledge cluster. This is your set of application</li>
+</ul>
+<p>At the end of the day, if you want to go for continuous delivery, it might be that <strong>you will deploy multiple times per
+day only the application layer</strong>, whereas the rest is deployed with different pace or barely changes at all.</p>
+<p>You can also think about this separation by imagining different teams offering different layers as their deliverable.</p>
+<p>I like to imagine the above abstractions as layers, and my personal idea is that they should be implemented with IaC in
+Terraform, but not deployed in a single root module.</p>
+<blockquote>
+<p>This is the very moment where the convenience of Terraform stops, and we need to use something else.</p>
+</blockquote>
+<h2 id="pros-of-layered-infrastructure">Pros of Layered Infrastructure</h2>
+<p>When you start splitting your infrastructure with the layered approach you can immediately see some benefit:</p>
+<ul>
+<li>Your <strong>state files and code are slimmer</strong> and more maintainable.</li>
+<li>It pushes you to <strong>start thinking and reason about interfaces</strong>. In Terraform the interfaces are the <code>variables.tf</code>
+files.</li>
+<li>You create a domain of concerns, another important <a href="https://en.wikipedia.org/wiki/SOLID">SOLID principle</a> of software
+engineering.</li>
+<li>Being different layers, multiple person can work and deploy on different layers without risking incurring in state
+locking because someone else is using the same state file.</li>
+<li>With layering you are forced to put more attention in the breaking changes you might introduce while you are coding
+and the impact you might have on subsequent layers.</li>
+</ul>
+<h2 id="how-to-orchestrate">How to Orchestrate</h2>
+<p>Now it comes the interesting part.</p>
+<p>With this separation in mind I can&rsquo;t really split things in terraform. I mean, you can use different root modules for
+each of these layers, but we need to find another way to orchestrate the deployment of all these stacks.</p>
+<p>In addition, these stacks might depend on each other. So the strategy is that each subsequent stack read what he needs
+from the information exported from the previous stack(s).</p>
+<p>We can achieve this in different way depending on the orchestration technology.</p>
+<p>Most common case is that the next layer receives the minimal necessary requirement from the orchestrator, so that it can
+proceed with the deployment: just to make an example with the  <strong>application</strong> layer: it will require only the
+coordinate of the Kubernetes cluster, and then it can proceed by instantiating the required provider and targeting the
+cluster.</p>
+<p>In this context the orchestrator, once the cluster is deployed can retrieve the information from the remote state and
+pass them to the next layer.</p>
+<p>When it comes to the orchestration technologies here some examples I&rsquo;ve used:</p>
+<h3 id="terragrunt">Terragrunt</h3>
+<p><strong><a href="https://terragrunt.gruntwork.io/">Terragrunt</a></strong> looks for the moment the most interesting technology to drive the
+orchestration. It supports quite interesting helpers to make the dependencies explicit, and you can easily test the
+deployment orchestration from your laptop.</p>
+<h3 id="pipelines">Pipelines</h3>
+<p>You can also describe the orchestration with pipelines or workflows, such as <strong>GitHub actions</strong>. In this case, there is
+the
+<em>pitfall of creating too complex actions that tie you to the specific technology for the runners</em>.<br>
+For example, if you start creating complex orchestrations with GitHub actions then you will not be able to easily test
+them in your local development (workstation). Some project might help you <a href="https://github.com/nektos/act">like ACT</a>, but
+most of the time it&rsquo;s just faster to push the branch and let the runners deploy and test your changes.</p>
+<h3 id="taskfile">Taskfile</h3>
+<p>Another technology, more tech-agnostic and portable, might be the new replacement for the glorified Makefiles,
+<strong><a href="https://taskfile.dev/#/">Taskfile</a></strong>. It&rsquo;s a Golang project (single binary) that offers incredible flexibility and
+rich features to drive your orchestration.</p>
+<h2 id="final-thoughts-and-whats-next">Final Thoughts and what&rsquo;s next</h2>
+<p>I personally see Terragrunt as the most featured way to orchestrate even though, on the other side I dislike a bit the
+way it creates complex interpolations. It might become difficult to maintain.</p>
+<p>The other possibility I see interesting is to describe the orchestration with Taskfile, so that you can create the tasks
+and be able to use them locally or on the runners.</p>
+<p>Next article, I will showcase an example repository that follows the layered infrastructure pattern, just to try to
+explain more clearly how I think a good use of layers should be like.</p>
+
+  </div>
+</section>
+<section id="tag-pane" class="meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "g-c-dev" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://gchiesa.github.io/posts/oauth2proxy-and-traefik/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/posts">posts</a></span>
+  
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://gchiesa.github.io/">home</a></h4>
+</section>
+
+
+
+<footer class="text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2022. Giuseppe Chiesa. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.92.0</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+  
+
+  
+</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/main.js"></script>
+<script src="/js/custom.js"></script>
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BBLW1NP2ZG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BBLW1NP2ZG');
+</script>
+
+
+</body>
+</html>
+
+

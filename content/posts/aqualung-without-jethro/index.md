@@ -16,7 +16,7 @@ Most of the time is listening to some my favourite music artists. And today, I'l
 with **[Aqualung](https://music.apple.com/us/artist/aqualung/14127688)**.
 
 He's an incredibly elegant and talented british artist. In his music, you can listen influences from the best
-inspirations out there: Beatles, Radiohead, Bon Iver, and others. 
+inspirations out there: Beatles, Tears for Fears, Radiohead, Bon Iver, and others. 
 
 Everything mixed in a fascinating and colourful
 compositions that result in an impressively curated pop, with complex harmonies that sound so easy.

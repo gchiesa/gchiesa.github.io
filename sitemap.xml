@@ -2,19 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://g-c.dev/posts/aqualung-without-jethro/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
+    <loc>https://g-c.dev/categories/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
+    <loc>https://g-c.dev/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
+    <loc>https://g-c.dev/categories/lets-take-a-break/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
+    <loc>https://g-c.dev/categories/music/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
+    <loc>https://g-c.dev/posts/</loc>
+    <lastmod>2022-04-03T15:10:47+02:00</lastmod>
+  </url><url>
     <loc>https://g-c.dev/categories/architecture/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
-    <loc>https://g-c.dev/categories/</loc>
-    <lastmod>2022-03-07T17:52:05+01:00</lastmod>
-  </url><url>
-    <loc>https://g-c.dev/</loc>
-    <lastmod>2022-03-07T17:52:05+01:00</lastmod>
-  </url><url>
     <loc>https://g-c.dev/categories/iac/</loc>
-    <lastmod>2022-03-07T17:52:05+01:00</lastmod>
-  </url><url>
-    <loc>https://g-c.dev/posts/</loc>
     <lastmod>2022-03-07T17:52:05+01:00</lastmod>
   </url><url>
     <loc>https://g-c.dev/posts/terraform-and-layered-infrastructure-part-1/</loc>

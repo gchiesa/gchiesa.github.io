@@ -25,7 +25,7 @@ enableRobotsTXT = true
 [params]
 author = "Giuseppe Chiesa"
 intro = "I’m Peppe, an italian Cloud Architect living in Amsterdam."
-description = "I love my **beautiful fiancee** and my cat **Newton**. I enjoy **jazz** music, italian cooking and be surrounded by **open-minded** people."
+description = "I love my **beautiful wife** and my cat **Newton**. I enjoy **jazz** music, italian cooking and be surrounded by **open-minded** people."
 authorimage = "peppewith3p.jpg"
 dateformat = "Jan 2, 2006"
 
